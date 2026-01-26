@@ -7,7 +7,7 @@ API para registro de saúde diária, permitindo gerenciar dados relacionados à 
 
 ## Tecnologias Utilizadas
 - Java 17
-- Spring Boot 4.0.2
+- Spring Boot 3.4.1
 - Spring Web
 - Spring Data JPA
 - Thymeleaf
@@ -16,6 +16,40 @@ API para registro de saúde diária, permitindo gerenciar dados relacionados à 
 - Spring Boot DevTools
 - Lombok
 - Maven
+
+## Estrutura do Projeto
+
+### Entidades (Model)
+Criadas 3 entidades JPA que representam as tabelas no banco de dados:
+
+- **Exercicio**: Registra atividades físicas
+  - `id` (Long): Identificador único
+  - `data` (LocalDate): Data do exercício
+  - `nome` (String): Nome do exercício
+  - `series` (Integer): Número de séries
+  - `repeticoes` (Integer): Número de repetições
+  - `carga` (Double): Carga utilizada
+  - `tempo` (Integer): Tempo de duração
+
+- **Refeicao**: Registra refeições
+  - `id` (Long): Identificador único
+  - `nome` (String): Nome da refeição
+  - `tipo` (String): Tipo (café, almoço, jantar, etc)
+  - `quantidade` (Double): Quantidade em gramas
+  - `data` (LocalDate): Data da refeição
+
+- **Sono**: Registra qualidade do sono
+  - `id` (Long): Identificador único
+  - `horasDormidas` (Double): Quantidade de horas dormidas
+  - `qualidade` (String): Qualidade do sono (boa, moderada, ruim)
+  - `data` (LocalDate): Data do registro
+
+### Anotações Utilizadas
+- `@Entity`: Marca a classe como entidade JPA
+- `@Table`: Define o nome da tabela no banco
+- `@Data`: Lombok - gera getters, setters, toString, equals e hashCode automaticamente
+- `@Id`: Define a chave primária
+- `@GeneratedValue`: Gera o ID automaticamente (auto-increment)
 
 ## Configuração do Ambiente
 O projeto utiliza banco de dados H2 em memória para persistência de dados durante o desenvolvimento.
@@ -30,6 +64,29 @@ O projeto utiliza banco de dados H2 em memória para persistência de dados dura
 ```bash
 ./mvnw spring-boot:run
 ```
+
+## Como Testar
+1. Execute a aplicação com `./mvnw spring-boot:run`
+2. Acesse http://localhost:8080/h2-console
+3. Configure a conexão:
+   - JDBC URL: `jdbc:h2:mem:testdb`
+   - Username: `sa`
+   - Password: (vazio)
+4. Execute as queries SQL:
+```sql
+SHOW TABLES;
+SELECT * FROM EXERCICIO;
+SELECT * FROM REFEICAO;
+SELECT * FROM SONO;
+```
+
+## Progresso do Desafio
+- ✅ Aula 1: Configuração inicial do projeto
+- ✅ Aula 2: Criação das entidades (Exercicio, Refeicao, Sono)
+  - Criadas 3 entidades JPA com Lombok
+  - Configurado mapeamento objeto-relacional
+  - Tabelas geradas automaticamente pelo Hibernate
+  - Testado no H2 Console
 
 ## Autor
 Guilherme Falcão
