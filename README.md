@@ -44,12 +44,28 @@ Criadas 3 entidades JPA que representam as tabelas no banco de dados:
   - `qualidade` (String): Qualidade do sono (boa, moderada, ruim)
   - `data` (LocalDate): Data do registro
 
+### Repositories
+Criadas 3 interfaces Repository que estendem JpaRepository:
+
+- **ExercicioRepository**: Gerencia operações CRUD de Exercicio
+- **RefeicaoRepository**: Gerencia operações CRUD de Refeicao
+- **SonoRepository**: Gerencia operações CRUD de Sono
+
+Cada repository herda automaticamente métodos como:
+- `save()`: Salvar/atualizar
+- `findById()`: Buscar por ID
+- `findAll()`: Listar todos
+- `deleteById()`: Deletar por ID
+- `count()`: Contar registros
+- `existsById()`: Verificar existência
+
 ### Anotações Utilizadas
 - `@Entity`: Marca a classe como entidade JPA
 - `@Table`: Define o nome da tabela no banco
 - `@Data`: Lombok - gera getters, setters, toString, equals e hashCode automaticamente
 - `@Id`: Define a chave primária
 - `@GeneratedValue`: Gera o ID automaticamente (auto-increment)
+- `@Repository`: Marca a interface como componente Repository do Spring
 
 ## Configuração do Ambiente
 O projeto utiliza banco de dados H2 em memória para persistência de dados durante o desenvolvimento.
@@ -87,6 +103,23 @@ SELECT * FROM SONO;
   - Configurado mapeamento objeto-relacional
   - Tabelas geradas automaticamente pelo Hibernate
   - Testado no H2 Console
+- ✅ Aula 3: Criação dos Repositories
+  - Criadas 3 interfaces Repository
+  - Estendido JpaRepository para operações CRUD
+  - Métodos de persistência prontos para uso
+
+## Arquitetura
+```
+Controller (próxima aula)
+    ↓
+Service (próxima aula)
+    ↓
+Repository (Aula 3) ← Acesso ao banco de dados
+    ↓
+Model/Entity (Aula 2) ← Representação das tabelas
+    ↓
+Database H2 (Aula 1) ← Banco de dados em memória
+```
 
 ## Autor
 Guilherme Falcão
