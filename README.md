@@ -107,12 +107,15 @@ SELECT * FROM SONO;
   - Criadas 3 interfaces Repository
   - Estendido JpaRepository para operações CRUD
   - Métodos de persistência prontos para uso
+- ✅ Aula 4: Criação dos Controllers (API REST)
+  - Criados 3 controllers REST
+  - Implementados endpoints CRUD completos
+  - Rotas: /listar, /salvar, /editar/{id}, /excluir/{id}
+  - Pronto para testes no Postman
 
 ## Arquitetura
 ```
-Controller (próxima aula)
-    ↓
-Service (próxima aula)
+Controller (Aula 4) ← Recebe requisições HTTP (GET, POST, PUT, DELETE)
     ↓
 Repository (Aula 3) ← Acesso ao banco de dados
     ↓
@@ -120,6 +123,29 @@ Model/Entity (Aula 2) ← Representação das tabelas
     ↓
 Database H2 (Aula 1) ← Banco de dados em memória
 ```
+
+## Endpoints da API
+
+### Exercício
+- `GET /exercicio/listar` - Lista todos os exercícios
+- `POST /exercicio/salvar` - Cria um novo exercício
+- `PUT /exercicio/editar/{id}` - Atualiza um exercício
+- `DELETE /exercicio/excluir/{id}` - Exclui um exercício
+
+### Refeição
+- `GET /refeicao/listar` - Lista todas as refeições
+- `POST /refeicao/salvar` - Cria uma nova refeição
+- `PUT /refeicao/editar/{id}` - Atualiza uma refeição
+- `DELETE /refeicao/excluir/{id}` - Exclui uma refeição
+
+### Sono
+- `GET /sono/listar` - Lista todos os registros de sono
+- `POST /sono/salvar` - Cria um novo registro de sono
+- `PUT /sono/editar/{id}` - Atualiza um registro de sono
+- `DELETE /sono/excluir/{id}` - Exclui um registro de sono
+
+## Como Testar com Postman
+Veja o arquivo [TESTES_POSTMAN.md](TESTES_POSTMAN.md) para guia completo de testes.
 
 ## Autor
 Guilherme Falcão
