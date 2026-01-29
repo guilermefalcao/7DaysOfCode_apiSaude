@@ -81,6 +81,12 @@ O projeto utiliza banco de dados H2 em memória para persistência de dados dura
 ./mvnw spring-boot:run
 ```
 
+## Como Acessar
+- **Página Inicial:** http://localhost:8080/
+- **CRUD de Exercícios:** http://localhost:8080/crud
+- **H2 Console:** http://localhost:8080/h2-console
+- **API REST:** http://localhost:8080/exercicio/listar
+
 ## Como Testar
 1. Execute a aplicação com `./mvnw spring-boot:run`
 2. Acesse http://localhost:8080/h2-console
@@ -99,19 +105,13 @@ SELECT * FROM SONO;
 ## Progresso do Desafio
 - ✅ Aula 1: Configuração inicial do projeto
 - ✅ Aula 2: Criação das entidades (Exercicio, Refeicao, Sono)
-  - Criadas 3 entidades JPA com Lombok
-  - Configurado mapeamento objeto-relacional
-  - Tabelas geradas automaticamente pelo Hibernate
-  - Testado no H2 Console
 - ✅ Aula 3: Criação dos Repositories
-  - Criadas 3 interfaces Repository
-  - Estendido JpaRepository para operações CRUD
-  - Métodos de persistência prontos para uso
 - ✅ Aula 4: Criação dos Controllers (API REST)
-  - Criados 3 controllers REST
-  - Implementados endpoints CRUD completos
-  - Rotas: /listar, /salvar, /editar/{id}, /excluir/{id}
-  - Pronto para testes no Postman
+- ✅ Aula 5: Integração Frontend com Thymeleaf
+  - Criado HomeController e CrudController
+  - Desenvolvidas páginas index.html e crud.html
+  - Implementado CRUD completo via interface web
+  - JavaScript para modais de edição
 
 ## Arquitetura
 ```
