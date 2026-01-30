@@ -458,6 +458,134 @@ src/main/
 
 ---
 
+## 📚 Aula 6: Expansão do Frontend (Refeições e Sono)
+
+### O que foi feito:
+1. **Criados 2 novos Controllers MVC:**
+   - **RefeicaoCrudController.java**: Gerencia CRUD de Refeições via HTML
+   - **SonoCrudController.java**: Gerencia CRUD de Sono via HTML
+
+2. **Criadas 2 novas páginas HTML:**
+   - **refeicao-crud.html**: Interface completa para gerenciar refeições
+   - **sono-crud.html**: Interface completa para gerenciar sono
+
+3. **Atualizada página inicial:**
+   - **index.html**: Agora com botões para acessar os 3 módulos
+
+### Estrutura dos novos Controllers:
+```java
+@Controller
+@RequestMapping("/refeicao-crud")
+public class RefeicaoCrudController {
+    @Autowired
+    private RefeicaoRepository repository;
+    
+    @GetMapping                    // Exibe página
+    @PostMapping("/salvar")         // Adiciona
+    @PostMapping("/editar")         // Atualiza
+    @GetMapping("/excluir/{id}")   // Exclui
+}
+```
+
+### Funcionalidades implementadas:
+
+**Refeições:**
+- ✅ Listar todas as refeições em tabela
+- ✅ Adicionar refeição (nome, tipo, quantidade, data)
+- ✅ Editar refeição via modal preenchido automaticamente
+- ✅ Excluir refeição com confirmação
+- ✅ Select com opções: Café da manhã, Almoço, Lanche, Jantar, Ceia
+
+**Sono:**
+- ✅ Listar todos os registros de sono em tabela
+- ✅ Adicionar registro (horas dormidas, qualidade, data)
+- ✅ Editar registro via modal preenchido automaticamente
+- ✅ Excluir registro com confirmação
+- ✅ Select com opções: Excelente, Boa, Moderada, Ruim, Péssima
+
+### Reutilização de código:
+As páginas de Refeição e Sono seguem o mesmo padrão de Exercício:
+- Mesma estrutura HTML
+- Mesmo JavaScript para modais
+- Mesma lógica de CRUD
+- Apenas adaptadas para os campos específicos de cada entidade
+
+### Navegação:
+```
+Página Inicial (index.html)
+    │
+    ├── Botão "Exercícios" → /crud
+    ├── Botão "Refeições" → /refeicao-crud
+    └── Botão "Sono" → /sono-crud
+
+Cada página CRUD tem:
+    └── Botão "Voltar para Home" → /
+```
+
+### Cores temáticas:
+- **Exercícios:** Roxo (#667eea)
+- **Refeições:** Verde (#28a745)
+- **Sono:** Roxo escuro (#6f42c1)
+
+### Como testar:
+1. Inicie a aplicação: `./mvnw spring-boot:run`
+2. Acesse: http://localhost:8080/
+3. Clique em "Refeições" ou "Sono"
+4. Teste adicionar, editar e excluir registros
+5. Verifique no H2 Console: http://localhost:8080/h2-console
+
+### Conceitos reforçados:
+- **Reutilização de código**: Mesmo padrão para todas as entidades
+- **Consistência**: Interface uniforme e intuitiva
+- **Separação de responsabilidades**: Cada entidade tem seu próprio controller e página
+- **UX**: Navegação fácil entre módulos
+
+---
+
+## 🎯 Sistema Completo (Aulas 1-6)
+
+### Estrutura final de controllers:
+```
+controller/
+├── HomeController.java              (Página inicial)
+├── CrudController.java              (CRUD Exercícios - HTML)
+├── RefeicaoCrudController.java      (CRUD Refeições - HTML)
+├── SonoCrudController.java          (CRUD Sono - HTML)
+├── ExercicioController.java         (API REST - JSON)
+├── RefeicaoController.java          (API REST - JSON)
+└── SonoController.java              (API REST - JSON)
+```
+
+### Estrutura final de templates:
+```
+templates/
+├── index.html                       (Página inicial)
+├── crud.html                        (CRUD Exercícios)
+├── refeicao-crud.html               (CRUD Refeições)
+└── sono-crud.html                   (CRUD Sono)
+```
+
+### Formas de acessar os dados:
+
+| Módulo | Interface Web | API REST | Banco H2 |
+|--------|---------------|----------|----------|
+| Exercícios | /crud | /exercicio/listar | SELECT * FROM EXERCICIO |
+| Refeições | /refeicao-crud | /refeicao/listar | SELECT * FROM REFEICAO |
+| Sono | /sono-crud | /sono/listar | SELECT * FROM SONO |
+
+### Projeto completo:
+✅ 3 Entidades (Model)
+✅ 3 Repositories
+✅ 3 Controllers REST (API JSON)
+✅ 3 Controllers MVC (Páginas HTML)
+✅ 4 Páginas HTML com Thymeleaf
+✅ CRUD completo para todas as entidades
+✅ Interface web moderna e responsiva
+✅ Navegação intuitiva
+✅ JavaScript para modais dinâmicos
+
+---
+
 ## 📖 Glossário de Termos
 
 - **API REST**: Interface para comunicação entre sistemas via HTTP

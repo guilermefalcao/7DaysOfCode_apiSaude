@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="pt-BR" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CRUD - Refeições</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background: #f5f5f5; padding: 20px; }
+        .container { max-width: 1200px; margin: 0 auto; background: white; border-radius: 10px; padding: 30px; box-shadow: 0 2px 10px rgba(0,0,0,0.1); }
+        h1 { color: #28a745; margin-bottom: 30px; text-align: center; }
+        .btn { background: #28a745; color: white; padding: 10px 20px; border: none; border-radius: 5px; cursor: pointer; font-size: 1em; transition: background 0.3s; text-decoration: none; display: inline-block; }
+        .btn:hover { background: #218838; }
+        .btn-danger { background: #dc3545; }
+        .btn-danger:hover { background: #c82333; }
+        .btn-success { background: #28a745; }
+        .btn-success:hover { background: #218838; }
+        .btn-home { background: #667eea; margin-bottom: 20px; }
+        .btn-home:hover { background: #5568d3; }
+        table { width: 100%; border-collapse: collapse; margin-top: 20px; }
+        th, td { padding: 12px; text-align: left; border-bottom: 1px solid #ddd; }
+        th { background: #28a745; color: white; }
+        tr:hover { background: #f8f9fa; }
+        .form-group { margin-bottom: 15px; }
+        label { display: block; margin-bottom: 5px; color: #333; font-weight: bold; }
+        input, select { width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 5px; font-size: 1em; }
+        .modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); justify-content: center; align-items: center; }
+        .modal.active { display: flex; }
+        .modal-content { background: white; padding: 30px; border-radius: 10px; max-width: 500px; width: 100%; }
+        .modal-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; }
+        .close { font-size: 2em; cursor: pointer; color: #999; }
+        .close:hover { color: #333; }
+        .actions { display: flex; gap: 10px; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <a href="/" class="btn btn-home">← Voltar para Home</a>
+        <h1>🍽️ Gerenciamento de Refeições</h1>
+        
+        <button class="btn btn-success" onclick="abrirModalAdicionar()">+ Adicionar Refeição</button>
+        
+        <table>
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Nome</th>
+                    <th>Tipo</th>
+                    <th>Quantidade (g)</th>
+                    <th>Data</th>
+                    <th>Ações</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr th:if="${#lists.isEmpty(refeicoes)}">
+                    <td colspan="6" style="text-align: center; color: #999;">Nenhuma refeição cadastrada</td>
+                </tr>
+                
+                <tr th:each="refeicao : ${refeicoes}">
+                    <td th:text="${refeicao.id}">1</td>
+                    <td th:text="${refeicao.nome}">Frango com batata</td>
+                    <td th:text="${refeicao.tipo}">Almoço</td>
+                    <td th:text="${refeicao.quantidade}">350.0</td>
+                    <td th:text="${refeicao.data != null ? #temporals.format(refeicao.data, 'dd/MM/yyyy') : ''}">26/01/2026</td>
+                    <td class="actions">
+                        <button class="btn" type="button"
+                                th:attr="onclick='abrirModalEditar(' + ${refeicao.id} + ',\'' + ${refeicao.nome} + '\',\'' + ${refeicao.tipo} + '\',' + ${refeicao.quantidade} + ',\'' + ${refeicao.data} + '\')'">
+                            Editar
+                        </button>
+                        <a th:href="@{/refeicao-crud/excluir/{id}(id=${refeicao.id})}" 
+                           class="btn btn-danger"
+                           onclick="return confirm('Deseja realmente excluir esta refeição?')">
+                            Excluir
+                        </a>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+    
+    <!-- Modal Adicionar -->
+    <div id="modalAdicionar" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>Adicionar Refeição</h2>
+                <span class="close" onclick="fecharModalAdicionar()">&times;</span>
+            </div>
+            <form th:action="@{/refeicao-crud/salvar}" method="post">
+                <div class="form-group">
+                    <label>Nome:</label>
+                    <input type="text" name="nome" required>
+                </div>
+                <div class="form-group">
+                    <label>Tipo:</label>
+                    <select name="tipo" required>
+                        <option value="">Selecione...</option>
+                        <option value="Café da manhã">Café da manhã</option>
+                        <option value="Almoço">Almoço</option>
+                        <option value="Lanche">Lanche</option>
+                        <option value="Jantar">Jantar</option>
+                        <option value="Ceia">Ceia</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>Quantidade (gramas):</label>
+                    <input type="number" step="0.1" name="quantidade" required>
+                </div>
+                <div class="form-group">
+                    <label>Data:</label>
+                    <input type="date" name="data" required>
+                </div>
+                <button type="submit" class="btn btn-success">Salvar</button>
+            </form>
+        </div>
+    </div>
+    
+    <!-- Modal Editar -->
+    <div id="modalEditar" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>Editar Refeição</h2>
+                <span class="close" onclick="fecharModalEditar()">&times;</span>
+            </div>
+            <form th:action="@{/refeicao-crud/editar}" method="post">
+                <input type="hidden" id="editId" name="id">
+                <div class="form-group">
+                    <label>Nome:</label>
+                    <input type="text" id="editNome" name="nome" required>
+                </div>
+                <div class="form-group">
+                    <label>Tipo:</label>
+                    <select id="editTipo" name="tipo" required>
+                        <option value="Café da manhã">Café da manhã</option>
+                        <option value="Almoço">Almoço</option>
+                        <option value="Lanche">Lanche</option>
+                        <option value="Jantar">Jantar</option>
+                        <option value="Ceia">Ceia</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>Quantidade (gramas):</label>
+                    <input type="number" step="0.1" id="editQuantidade" name="quantidade" required>
+                </div>
+                <div class="form-group">
+                    <label>Data:</label>
+                    <input type="date" id="editData" name="data" required>
+                </div>
+                <button type="submit" class="btn btn-success">Atualizar</button>
+            </form>
+        </div>
+    </div>
+    
+    <script>
+        function abrirModalAdicionar() {
+            document.getElementById('modalAdicionar').classList.add('active');
+        }
+        
+        function fecharModalAdicionar() {
+            document.getElementById('modalAdicionar').classList.remove('active');
+        }
+        
+        function abrirModalEditar(id, nome, tipo, quantidade, data) {
+            document.getElementById('editId').value = id;
+            document.getElementById('editNome').value = nome;
+            document.getElementById('editTipo').value = tipo;
+            document.getElementById('editQuantidade').value = quantidade;
+            document.getElementById('editData').value = data;
+            document.getElementById('modalEditar').classList.add('active');
+        }
+        
+        function fecharModalEditar() {
+            document.getElementById('modalEditar').classList.remove('active');
+        }
+        
+        window.onclick = function(event) {
+            const modalAdicionar = document.getElementById('modalAdicionar');
+            const modalEditar = document.getElementById('modalEditar');
+            if (event.target == modalAdicionar) fecharModalAdicionar();
+            if (event.target == modalEditar) fecharModalEditar();
+        }
+    </script>
+</body>
+</html>

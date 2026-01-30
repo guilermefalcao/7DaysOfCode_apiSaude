@@ -84,8 +84,12 @@ O projeto utiliza banco de dados H2 em memória para persistência de dados dura
 ## Como Acessar
 - **Página Inicial:** http://localhost:8080/
 - **CRUD de Exercícios:** http://localhost:8080/crud
+- **CRUD de Refeições:** http://localhost:8080/refeicao-crud
+- **CRUD de Sono:** http://localhost:8080/sono-crud
 - **H2 Console:** http://localhost:8080/h2-console
-- **API REST:** http://localhost:8080/exercicio/listar
+- **API REST Exercícios:** http://localhost:8080/exercicio/listar
+- **API REST Refeições:** http://localhost:8080/refeicao/listar
+- **API REST Sono:** http://localhost:8080/sono/listar
 
 ## Como Testar
 1. Execute a aplicação com `./mvnw spring-boot:run`
@@ -107,11 +111,16 @@ SELECT * FROM SONO;
 - ✅ Aula 2: Criação das entidades (Exercicio, Refeicao, Sono)
 - ✅ Aula 3: Criação dos Repositories
 - ✅ Aula 4: Criação dos Controllers (API REST)
-- ✅ Aula 5: Integração Frontend com Thymeleaf
+- ✅ Aula 5: Integração Frontend com Thymeleaf (Exercícios)
   - Criado HomeController e CrudController
   - Desenvolvidas páginas index.html e crud.html
   - Implementado CRUD completo via interface web
   - JavaScript para modais de edição
+- ✅ Aula 6: Expansão do Frontend (Refeições e Sono)
+  - Criados RefeicaoCrudController e SonoCrudController
+  - Desenvolvidas páginas refeicao-crud.html e sono-crud.html
+  - CRUD completo para todas as 3 entidades
+  - Interface unificada com navegação entre módulos
 
 ## Arquitetura
 ```
