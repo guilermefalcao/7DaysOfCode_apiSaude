@@ -586,6 +586,36 @@ templates/
 
 ---
 
+## 📚 Aula 7: Relatórios e Gráficos com Chart.js
+
+### O que foi feito:
+1. **Criado RelatorioService** para cálculos estatísticos
+2. **Adicionadas queries @Query** nos repositories
+3. **Criado RelatorioController** para exibir relatórios
+4. **Criada página relatorios.html** com 4 gráficos Chart.js
+
+### Queries personalizadas:
+```java
+@Query("SELECT COALESCE(AVG(e.tempo), 0.0) FROM Exercicio e")
+Double calcularMediaTempo();
+```
+
+### Gráficos implementados:
+- 📊 Barras (Exercícios)
+- 🥧 Pizza (Refeições)
+- 📈 Linha (Sono)
+- 🎯 Radar (Visão Geral)
+
+### Como testar:
+1. Inicie: `./mvnw spring-boot:run`
+2. Cadastre dados nos CRUDs
+3. Acesse: http://localhost:8080/relatorios
+4. Visualize gráficos interativos
+
+**Projeto #7DaysOfCode concluído! 🎉**
+
+---
+
 ## 📖 Glossário de Termos
 
 - **API REST**: Interface para comunicação entre sistemas via HTTP

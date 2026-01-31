@@ -1,29 +1,30 @@
 package saude.api.repository;
 
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 import saude.api.model.Exercicio;
 
 /**
  * Repository para a entidade Exercicio.
  * 
- * Ao estender JpaRepository, esta interface herda automaticamente métodos prontos para:
- * - save(): Salvar/atualizar um exercício
- * - findById(): Buscar exercício por ID
- * - findAll(): Listar todos os exercícios
- * - deleteById(): Deletar exercício por ID
- * - count(): Contar total de exercícios
- * - existsById(): Verificar se exercício existe
- * 
- * JpaRepository<Exercicio, Long>:
- * - Exercicio: Tipo da entidade que será gerenciada
- * - Long: Tipo do ID da entidade
- * 
- * Não é necessário implementar nada! O Spring Data JPA cria a implementação automaticamente.
+ * @Query: Permite criar consultas personalizadas usando JPQL ou SQL nativo
+ * AVG(): Função SQL para calcular média
  */
 @Repository
 public interface ExercicioRepository extends JpaRepository<Exercicio, Long> {
-    // Métodos personalizados podem ser adicionados aqui, por exemplo:
-    // List<Exercicio> findByNome(String nome);
-    // List<Exercicio> findByData(LocalDate data);
+    
+    /**
+     * Calcula a média de tempo gasto em exercícios.
+     * @return Média de tempo em minutos (ou 0.0 se não houver registros)
+     */
+    @Query("SELECT COALESCE(AVG(e.tempo), 0.0) FROM Exercicio e")
+    Double calcularMediaTempo();
+    
+    /**
+     * Calcula a média de carga utilizada nos exercícios.
+     * @return Média de carga em kg (ou 0.0 se não houver registros)
+     */
+    @Query("SELECT COALESCE(AVG(e.carga), 0.0) FROM Exercicio e")
+    Double calcularMediaCarga();
 }
